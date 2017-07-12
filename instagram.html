@@ -3,29 +3,104 @@
 	<head>
 		<meta charset="utf-8">
     		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    		<meta name="viewport" content="width=device-width, initial-scale=1">		
+    		<meta name="viewport" content="width=device-width, initial-scale=1">	
+
+			  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+			  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>			
 
 		<title>Instagram</title>
 		<!--Custom css file-->
 		<link rel="stylesheet" href="css/styles.css">
 		<!--Bootstrap css-->
 		<link rel="stylesheet" href="css/bootstrap.css">
+		
+		<style>
+			#application img {
+			width: 530px;
+			height: 375px;
+			position: absolute;
+		}
+		/*Image slider */
+		.bg-image {
+			width:300px;
+			height:430px;
+			background-repeat:no-repeat;
+			background-size:100%;
+			position: relative;
+			padding: 150px 0 0 0;
+			z-index: 1;
+			top:-520px;
+			left:364px;
+		}
+		.carousel-inner>.item>a>img, 
+		.carousel-inner>.item>img{
+			 height: 430px;
+		}
+  </style>
 	</head>
 	<body>
 		<!-- Row-1 Created -->
-		<div style="background-color : red;" class="row">
-			<h2>I Love</h2>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+					  <img class="temp" src="images/mobile-banner.png" align="right">
+                <div class="bg-image">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                      <!-- Indicators -->
+                      <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                      </ol>
+
+                      <!-- Wrapper for slides -->
+                      <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                          <img src="images/sample2.jpg" alt="...">
+                        </div>
+                        <div class="item">
+                          <img src="images/sample3.jpg" alt="...">
+                        </div>
+						<div class="item">
+                          <img src="images/sample4.jpg" alt="...">
+                        </div>
+						<div class="item">
+                          <img src="images/sample5.jpg" alt="...">
+                        </div>
+						<div class="item">
+                          <img src="images/sample1.jpg" alt="...">
+                        </div>
+                      </div>
+                    </div>
+                </div>
+				
+					
+					
+					
+					
+					
+			</div>
+			<div class="col-xs-12 col-sm-6">
+			<div class="col-xs-8 col-sm-6">
+			<div class="col-xs-12 col-sm-12 panel panel-default" align="center" style="margin-top:100px; padding:35px;">
+				<p>
+					<img src="images/ins.png"></br>
+					<img src="images/me.jpg" alt="..." class="img-circle" width="80px" height="100px"><br><br>
+					<button type="button" class="btn btn-primary">Log in as Khiladimanu1</button>
+					<p></br>Not khiladimanu1? Switch accounts</p>
+				</p>
+				</div>
+				<p align="center">Get the App</br></br>
+				<img src="images/apple-store.png" width="120px">
+				<img src="images/win-download.png" width="120px" height="35px">
+				</p>
+				</div>
+				
+			</div>
 		
 		</div>
 		<!-- Row-1 Closed -->
-		
-		<!-- Row-2 Created -->
-		<div style="background-color : white;" class="row">
-			<h2>My</h2>
-		
+		<div>
 		</div>
-		<!-- Row-2 Closed -->
-		
 		<!-- Row-3 Created -->
 		<footer>
 			<nav class="navbar navbar-default navbar-fixed-bottom">
