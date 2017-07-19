@@ -107,15 +107,18 @@ margin-left:440px;
   </span>
 </div>
 <br>
- <input id="contact" type="text" name="e_mail" placeholder="Mobile Number Or Email"> 
+<form method="post">
+{% csrf_token %}
+ <input id="contact" type="text" name="email" placeholder="Mobile Number Or Email" value="{{email}}"> 
  <br><br>
-   <input id="contact" type="text" name="name" placeholder="Full Name"> 
+   <input id="contact" type="text" name="name" placeholder="Full Name" value="{{name}}"> 
   <br><br>
-   <input id="contact" type="text" name="user_ame" placeholder="User Name"> 
+   <input id="contact" type="text" name="username" placeholder="User Name" value="{{username}}"> 
    <br><br>
-    <input id="contact" type="text" name="password" placeholder="Password"> 
+    <input id="contact" type="password" name="password" placeholder="Password" value="{{password}}"> 
 	<br><br>
-	 <input id="id2" type="button" value=" Sign Up">
+	 <input id="id2" type="submit" value=" Sign Up">
+</form>
    <h4>By signing up, you agree to our <br>Terms & Privacy Policy.</h4>
   </div>
   <div class="new">
