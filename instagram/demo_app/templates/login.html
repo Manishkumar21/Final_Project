@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Instagram page</title>
+<style>
+body{
+background:#F8F8F8;
+}
+.city {
+background:white;
+   float: left;
+   margin-top:0%;
+   padding: 10px;
+   width: 350px;
+   height: 550px;
+   border: 1px solid white;
+   }
+   h1{
+    text-shadow: 1px 1px 1px red;
+   text-align:center;
+   }
+   p{
+   margin:4%;
+   margin-left:20%;
+   }
+   h3{
+   text-align:center;
+   color:grey;
+   }
+   #id{
+   margin-left:18%;
+   padding:1%;
+   width:65%;
+    background:#33CAFF ;
+   }
+  #contact{
+   margin-left:18%;
+   padding:1%;
+   width:64%;
+   height:20px;
+  } 
+  .line{
+  margin-left:18%;
+  }
+  #id2{
+   margin-left:18%;
+   padding:1%;
+   width:67%;
+   background:#33CAFF ;
+  }
+  h4{
+   text-align:center;
+   color:Silver;
+  }
+  .new{
+  text-align:center;
+  background:white;
+   float: left;
+   margin-top:0%;
+   margin-left:57.5%;
+   padding: 8px;
+   width: 358px;
+   height: 55px;
+   border: 1px solid white;
+  }
+  h2{
+  margin-top:5%;
+   text-align:center;
+   float: left;
+   margin-top:0%;
+   margin-left:69%;
+   padding: 8px;
+   font-size:20px;
+  }
+  h6{
+   margin-top:0%;
+   text-align:center;
+   float: left;
+   margin-left:62.8%;
+  }
+li{
+display:inline;
+}
+ul{
+ margin-top:2%;
+   text-align:center;
+   float: left;
+   margin-left:2.8%;
+}
+.center
+{
+align:center;
+margin-left:440px;
+}
+</style>
+<head>
+<body>
+<div class="center">
+<div class="city">
+  <h1>Instagram</h1> 
+  <h3>Log In to see photos and videos<br>  &nbsp &nbsp from your friends.</h3>
+  <input id="id" type="button"value=" Log in with Facebook"><br></br>
+  
+   <div class="line" style="width: 66%; height: 20px; border-bottom: 1px solid black; text-align: center">
+  <span style="font-size: 20px; background-color:white;">
+    OR 
+  </span>
+</div>
+<br>
+<form method="post">
+{% csrf_token %}
+   <input id="contact" type="text" name="username" placeholder="User Name" value="{{username}}"> 
+   <br><br>
+    <input id="contact" type="password" name="password" placeholder="Password" value="{{password}}"> 
+	<br><br>
+	 <input id="id2" type="submit" value="Log In">
+</form>
+   <h4>By signing up, you agree to our <br>Terms & Privacy Policy.</h4>
+  </div>
+  <div class="new">
+</div>
+
+<h2><br> Get the App.</h2>
+
+<h6><a href="#"><img src="aa.png"height="40"width="135"></a>&nbsp &nbsp
+<a href="#"><img src="gg.png"height="40"width="135"></a></h6>
+<ul style="width:80%;">
+ <li><a href="">ABOUT US</a></li>
+  <li style="margin-left:2%";><a href="">SUPPORT</a></li>
+  <li style ="margin-left:2%";><a href="">BLOG</a></li>
+  <li style="margin-left:2%";><a href="">PRESS</a></li>
+  <li style="margin-left:2%";><a href="">API</a></li>
+  <li style="margin-left:2%";><a href="">JOB</a></li>
+   <li style="margin-left2%";><a href="">PRIVACY</a></li>
+    <li style="margin-left:2%";><a href="">TERMS</a></li>
+	 <li style="padding:4px";><a href="">DIRECTORY</a></li>
+   <li style="margin-left:2px";><a href="">LANGUAGE</a></li>
+</ul>
+</div>
+</body>
+</html>
