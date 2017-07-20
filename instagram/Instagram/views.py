@@ -4,7 +4,7 @@ from django.shortcuts import render
 from datetime import datetime
 from demo_app.forms import SignUpForm,LoginForm
 from django.contrib.auth.hashers import make_password,check_password
-from demo_app.models import UserModel
+from demo_app.models import UserModel,SessionToken
 # Create your views here.
 
 def signup_view(request):
@@ -48,6 +48,10 @@ def login_view(request):
                 #compare Password
                 if check_password(password, user.password):
                     #successfully Login
+                    new_token = SessionToken(user=user)
+                    new_token.create_token()
+                    new_token.save()
+
                     template_name = 'login_success.html'
                 else:
                     #Failed
