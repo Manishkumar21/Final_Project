@@ -6,20 +6,9 @@ from django.utils import timezone
 from demo_app.forms import SignUpForm,LoginForm, PostForm, LikeForm, CommentForm
 from django.contrib.auth.hashers import make_password,check_password
 from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel
-
 from Instagram.settings import BASE_DIR
 from imgurpython import ImgurClient
 # Create your views here.
-
-
-
-
-
-
-
-
-
-
 
 
 def signup_view(request):
@@ -117,9 +106,8 @@ def feed_view(request):
             if existing_like:
                 post.has_liked = True
 
-        return render(request, 'feeds.html', {'posts': posts})
+        return render(request,'feeds.html', {'posts': posts})
     else:
-
         return redirect('/login/')
 
 
