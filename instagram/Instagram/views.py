@@ -82,7 +82,7 @@ def post_view(request):
 
                 path = str(BASE_DIR + post.image.url)
 
-                client = ImgurClient('4eb011a7402a650','9aadcedb0bb5d5b384615153a9c15a5102e64d0a')
+                client = ImgurClient('4eb011a7402a650', '9aadcedb0bb5d5b384615153a9c15a5102e64d0a')
                 post.image_url = client.upload_from_path(path,anon=True)['link']
                 post.save()
 
@@ -106,7 +106,7 @@ def feed_view(request):
             if existing_like:
                 post.has_liked = True
 
-        return render(request,'feeds.html', {'posts': posts})
+        return render(request, 'feeds.html', {'posts': posts})
     else:
         return redirect('/login/')
 
