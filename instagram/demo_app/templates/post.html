@@ -1,13 +1,59 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Post</title>
-	<!--Bootstrap css-->
-		<link rel="stylesheet" href="css/bootstrap.css">
+
+		<!--Bootstrap css
+		<link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+	<!--Bootstrap css ends-->
+<style>
+        body{
+    background:#eae3e3;
+    background-size:100% 620px;
+    padding-top:80px;
+}
+.top{
+background-color:white;
+border-radius: 10px;
+padding:20px;
+    width:598px;
+    margin: auto;
+    border-radius: 10px;
+    opacity: .9;
+	align:center;
+}
+input[type="text"] {
+    height: 100px;
+	width: 250px;
+	background-color:black;
+	color:white;
+}
+#caption{
+  color: blue;
+  font:bold;
+}
+input[type="submit"] {
+	width: 100px;
+	height:30px;
+	margin-left:40px;
+	font-weight: bold;
+	background-color:#eae3e3;
+	color:#0005da;
+	font-size:19px;
+}
+label {
+  width:60px;
+  display: inline-block;
+  font-style: italic;
+  font-weight: bold;
+}
+    </style>
 </head>
 <body>
-
+<div class="top">
+	<center>
     <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -17,12 +63,11 @@
             <input id="image" type="file" name="image" accept="image/*" value={{ image }}>
         </div>
         <div>
-            <label for="caption">Caption: </label>
-            <input id="caption" type="text" name="image" value={{ caption }}>
+            <input id="caption" type="text" name="image" value={{ caption }} >
         </div>-->
 
-        <input type="submit" class="btn btn-default" value="Post">
-    </form>
+        <input type="submit" class="btn btn-primary" value="Post">
+    </form></center></div>
 	<!--Jquery library-->
 		<script src="js/javascript-3.2.1.js"></script>
 		<!--Bootstrap Javascript-->
