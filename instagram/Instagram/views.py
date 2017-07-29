@@ -8,6 +8,8 @@ from django.contrib.auth.hashers import make_password,check_password
 from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel
 from Instagram.settings import BASE_DIR
 from imgurpython import ImgurClient
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 
@@ -160,3 +162,8 @@ def check_validation(request):
                 return session.user
     else:
         return None
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login/')
