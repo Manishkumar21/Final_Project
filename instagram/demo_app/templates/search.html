@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search User</title>
+</head>
+<body>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.non_field_errors}}
+                    <textarea id="mytext" name="username"></textarea>
+                    <input type="submit" value="search" >
+                </form>
+
+</body>
+</html>

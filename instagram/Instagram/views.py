@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.utils import timezone
 from demo_app.forms import SignUpForm,LoginForm, PostForm, LikeForm, CommentForm
 from django.contrib.auth.hashers import make_password,check_password
-from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel,CategoryModel
+from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel
 from Instagram.settings import BASE_DIR
 from imgurpython import ImgurClient
 from django.contrib.auth import logout

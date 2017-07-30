@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View By Categories</title>
+</head>
+<body>
+
+<form method="POST" >
+    {% csrf_token %}
+        <select id="dropdown">
+            <option value="">None</option>
+            {% for post in posts %}
+                <option value="{{post.category}}">{{post.category}}</option>
+            {% endfor %}
+        </select>
+
+    <textarea id="mytext" name="category"></textarea>
+    <input type="submit" value="search" >
+
+</form>
+
+<script type="text/javascript">
+    var mytextbox = document.getElementById('mytext');
+    var mydropdown = document.getElementById('dropdown');
+
+    mydropdown.onchange = function(){
+          mytextbox.value = mytextbox.value  + this.value;
+    }
+</script>
+
+</body>
+
+</html>
