@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os
 from django.shortcuts import render, redirect
 from datetime import timedelta
 from django.utils import timezone
@@ -37,6 +38,7 @@ def signup_view(request):
                       "It is the place Where You Can Upload the Images Of the Product For Sale."
             yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
             yag.send(to=email, subject='p2p Marketplace', contents=message)
+            return email
             #   SUCCESSFULLY SEND EMAIL TO THE USER WHO HAS SIGNUP.
 
             return render(request, 'login.html')
@@ -140,8 +142,16 @@ def like_view(request):
             existing_like = LikeModel.objects.filter(post_id=post_id, user=user).first()
             if not existing_like:
                 LikeModel.objects.create(post_id=post_id, user=user)
+                posts = PostModel.objects.all().order_by('-created_on')
+                sorted(posts, key=str)
+                for post_id in posts:
+                    # sending welcome Email To User That Have Commented Successfully
+                    message = "Hii!.. Someone Liked your Post on Instaclone. Login Your accout to Check."
+                    yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
+                    yag.send(to=post_id.user.email, subject='Liked Your Post', contents=message)
             else:
                 existing_like.delete()
+
             return redirect('/feed/')
     else:
         return redirect('/login/')
@@ -150,6 +160,7 @@ def like_view(request):
 
 
 def comment_view(request):
+
     # it can create comment on the users post..
     user = check_validation(request)
     if user and request.method == 'POST':
@@ -159,6 +170,14 @@ def comment_view(request):
             comment_text = form.cleaned_data.get('comment_text')
             comment = CommentModel.objects.create(user=user, post_id=post_id, comment_text=comment_text)
             comment.save()
+            posts = PostModel.objects.all().order_by('-created_on')
+            sorted(posts, key=str)
+            for post_id in posts:
+
+            # sending welcome Email To User That Have Commented Successfully
+                message = "Hii!.. Someone Commented On your Post on Instaclone. Login Your accout to Check."
+                yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
+                yag.send(to=post_id.user.email, subject='Commented On Post', contents=message)
             return redirect('/feed/')
         else:
             return redirect('/feed/')
