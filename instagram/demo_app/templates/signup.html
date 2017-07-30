@@ -1,125 +1,144 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Instagram Signup Page</title>
-<style>
-body{
-background:#F8F8F8;
-}
-.city {
-background:white;
-   float: left;
-   margin-top:0%;
-   padding: 10px;
-   width: 350px;
-   border: 1px solid white;
-   }
-   h1{
-    text-shadow: 1px 1px 1px red;
-   text-align:center;
-   }
-   p{
-   margin:4%;
-   margin-left:20%;
-   }
-   h3{
-   text-align:center;
-   color:grey;
-   }
-   #id{
-   margin-left:18%;
-   padding:1%;
-   width:65%;
-    background:#33CAFF ;
-   }
-  #contact{
-   margin-left:18%;
-   padding:1%;
-   width:64%;
-   height:20px;
-  } 
-  .line{
-  margin-left:18%;
-  }
-  #id2{
-   margin-left:18%;
-   padding:1%;
-   width:67%;
-   background:#33CAFF ;
-  }
-  h4{
-   text-align:center;
-   color:Silver;
-  }
-  .new{
-  text-align:center;
-  background:white;
-   float: left;
-   margin-top:0%;
-   margin-left:57.5%;
-   padding: 8px;
-   width: 358px;
-   height: 55px;
-   border: 1px solid white;
-  }
-  h2{
-  margin-top:5%;
-   text-align:center;
-   float: left;
-   margin-top:0%;
-   margin-left:69%;
-   padding: 8px;
-   font-size:20px;
-  }
-  h6{
-   margin-top:0%;
-   text-align:center;
-   float: left;
-   margin-left:62.8%;
-  }
-li{
-display:inline;
-}
-ul{
- margin-top:2%;
-   text-align:center;
-   float: left;
-   margin-left:2.8%;
-}
-.center
-{
-align:center;
-margin-left:440px;
-}
-</style>
-<head>
-<body>
-<div class="center">
-<div class="city">
-  <h1>Instagram</h1> 
-  <h3>Sign up to see photos and videos<br>  &nbsp &nbsp from your friends.</h3>
-    <a href="/login/"><input id="id" type="button"value="Have Account Then Login"></a><br></br>
-  
-   <div class="line" style="width: 66%; height: 20px; border-bottom: 1px solid black; text-align: center">
-  <span style="font-size: 20px; background-color:white;">
-    OR 
-  </span>
-</div>
-<br>
-<form method="post">
-{% csrf_token %}
- <input id="contact" type="text" name="email" placeholder="Mobile Number Or Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" value="{{email}}">
- <br><br>
-   <input id="contact" type="text" name="name" placeholder="Full Name"  pattern=".{3,}" title="At least 3 or More Characters" value="{{name}}">
-  <br><br>
-   <input id="contact" type="text" name="username" placeholder="User Name"  pattern=".{4,}" title="At least 4 or More Characters" value="{{username}}">
-   <br><br>
-    <input id="contact" type="password" name="password" placeholder="Password" pattern=".{5,}" title="At least 5 or More Characters" value="{{password}}">
-	<br><br>
-	 <input id="id2" type="submit" value=" Sign Up">
-</form>
-   <h4>By signing up, you agree to our <br>Terms & Privacy Policy.</h4>
-  </div>
-</div>
-</body>
+	<head>
+		<title>
+			Instagram Signup Page
+		</title>
+		
+		<style>
+			body
+			{
+				background:#F8F8F8;
+			}
+			.city 
+			{
+			   background:white;
+			   float: left;
+			   margin-top:0%;
+			   padding: 10px;
+			   width: 350px;
+			   border: 1px solid white;
+			}
+		   h1
+		   {
+			   text-shadow: 1px 1px 1px red;
+			   text-align:center;
+		   }
+		   p
+		   {
+			   margin:4%;
+			   margin-left:20%;
+		   }
+		   h3
+		   {
+			   text-align:center;
+			   color:grey;
+		   }
+		   #id
+		   {
+			   margin-left:18%;
+			   padding:1%;
+			   width:65%;
+			   background:#33CAFF ;
+		   }
+		  #contact
+		  {
+			   margin-left:18%;
+			   padding:1%;
+			   width:64%;
+			   height:20px;
+		  } 
+		  .line
+		  {
+			   margin-left:18%;
+		  }
+		  #id2
+		  {
+			   margin-left:18%;
+			   padding:1%;
+			   width:67%;
+			   background:#33CAFF ;
+		  }
+		  h4
+		  {
+			   text-align:center;
+			   color:Silver;
+		  }
+		  .new
+		  {
+			  text-align:center;
+			  background:white;
+			   float: left;
+			   margin-top:0%;
+			   margin-left:57.5%;
+			   padding: 8px;
+			   width: 358px;
+			   height: 55px;
+			   border: 1px solid white;
+		  }
+		  h2
+		  {
+			   margin-top:5%;
+			   text-align:center;
+			   float: left;
+			   margin-top:0%;
+			   margin-left:69%;
+			   padding: 8px;
+			   font-size:20px;
+		  }
+		  h6
+		  {
+			   margin-top:0%;
+			   text-align:center;
+			   float: left;
+			   margin-left:62.8%;
+		  }
+		 li
+		 {
+			   display:inline;
+		 }
+		ul
+		{
+			   margin-top:2%;
+			   text-align:center;
+			   float: left;
+			   margin-left:2.8%;
+		}
+	   .center
+		{
+			  align:center;
+			  margin-left:440px;
+		}
+		</style>
+	<head>
+	
+	<body>
+		<div class="center">
+			<div class="city">
+				<h1>Instagram</h1> 
+				<h3>Sign up to see photos and videos<br>  &nbsp &nbsp from your friends.</h3>
+				<a href="/login/"><input id="id" type="button"value="Have Account Then Login"></a><br></br>
+	  
+				<div class="line" style="width: 66%; height: 20px; border-bottom: 1px solid black; text-align: center">
+					<span style="font-size: 20px; background-color:white;">
+						OR 
+					</span>
+				</div>
+				<br>
+				<form method="post">
+					{% csrf_token %}
+					<input id="contact" type="text" name="email" placeholder="Mobile Number Or Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" value="{{email}}">
+					<br><br>
+				    <input id="contact" type="text" name="name" placeholder="Full Name"  pattern=".{3,}" title="At least 3 or More Characters" value="{{name}}">
+				    <br><br>
+				    <input id="contact" type="text" name="username" placeholder="User Name"  pattern=".{4,}" title="At least 4 or More Characters" value="{{username}}">
+				    <br><br>
+					<input id="contact" type="password" name="password" placeholder="Password" pattern=".{5,}" title="At least 5 or More Characters" value="{{password}}">
+					<br><br>
+					<input id="id2" type="submit" value=" Sign Up">
+				</form>
+				<h4>By signing up, you agree to our <br>Terms & Privacy Policy.</h4>
+			</div>
+		</div>
+	</body>
 </html>
