@@ -108,13 +108,13 @@ margin-left:440px;
 <br>
 <form method="post">
 {% csrf_token %}
- <input id="contact" type="text" name="email" placeholder="Mobile Number Or Email" value="{{email}}"> 
+ <input id="contact" type="text" name="email" placeholder="Mobile Number Or Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" value="{{email}}">
  <br><br>
-   <input id="contact" type="text" name="name" placeholder="Full Name" value="{{name}}"> 
+   <input id="contact" type="text" name="name" placeholder="Full Name"  pattern=".{3,}" title="At least 3 or More Characters" value="{{name}}">
   <br><br>
-   <input id="contact" type="text" name="username" placeholder="User Name" value="{{username}}"> 
+   <input id="contact" type="text" name="username" placeholder="User Name"  pattern=".{4,}" title="At least 4 or More Characters" value="{{username}}">
    <br><br>
-    <input id="contact" type="password" name="password" placeholder="Password" value="{{password}}"> 
+    <input id="contact" type="password" name="password" placeholder="Password" pattern=".{5,}" title="At least 5 or More Characters" value="{{password}}">
 	<br><br>
 	 <input id="id2" type="submit" value=" Sign Up">
 </form>
