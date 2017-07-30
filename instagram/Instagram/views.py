@@ -15,27 +15,31 @@ import yagmail
 
 
 def signup_view(request):
+    # it will Create an Account of User So He/She Can Login and Use Application...
+
     if request.method == "POST":
+        # if Method is POST
+
         form = SignUpForm(request.POST)
         if form.is_valid():
+            # if Valid Then Below Values Are Going To Stored In Database..
             username = form.cleaned_data['username']
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
+
             #saving data to DB
             user = UserModel(name=name, password=make_password(password), email=email, username=username)
             user.save()
 
             # sending welcome Email To User That Have Signup Successfully
-            message = "Welcome!! To Creating Your Account At p2p marketplace Managed by vishav gupta.You Have " \
-                      "Successfully Registered.It is correct place for marketing Your product.We Are Happy To Get You" \
-                      "as one of our member "
+            message = "Welcome!! Your Account has been SSuccessfully Created At p2p marketplace by Manish Kumar." \
+                      "It is the place Where You Can Upload the Images Of the Product For Sale."
             yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
             yag.send(to=email, subject='p2p Marketplace', contents=message)
-            #   WOW!!!SUCCESSFULLY SEND EMAIL TO THE USER WHO HAS SIGNUP.
+            #   SUCCESSFULLY SEND EMAIL TO THE USER WHO HAS SIGNUP.
 
             return render(request, 'login.html')
-            #return redirect('login/')
     else:
         form = SignUpForm()
 
@@ -44,6 +48,8 @@ def signup_view(request):
 
 
 def login_view(request):
+    # it will fetch the data from the database and redirect to feed.html page...
+
     if request.method == 'POST':
         #Process The Data
         response_data = {}
@@ -52,6 +58,7 @@ def login_view(request):
             #Validation Success
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
+
             #read Data From db
             user = UserModel.objects.filter(username=username).first()
             if user:
@@ -65,11 +72,10 @@ def login_view(request):
                     response.set_cookie(key='session_token', value=token.session_token)
                     return response
 
-                    #template_name = 'login_success.html'
                 else:
                     #Failed
                     response_data['message'] = 'Incorrect Password! Please try again!'
-                   # template_name = 'login_fail.html'
+
     elif request.method == 'GET':
         # Display Login Page
         form = LoginForm()
@@ -79,8 +85,10 @@ def login_view(request):
 
 
 def post_view(request):
+    # it creates the new post in timeline of the application...
     user = check_validation(request)
     if user:
+        # if valid user
         if request.method == 'POST':
             form = PostForm(request.POST, request.FILES)
             if form.is_valid():
@@ -88,12 +96,14 @@ def post_view(request):
                 caption = form.cleaned_data.get('caption')
                 post = PostModel(user=user, image=image, caption=caption)
                 post.save()
+                # it will save the image on local directory and imgur used to save on cloud...
                 path = str(BASE_DIR+"//"+post.image.url)
                 client = ImgurClient('4eb011a7402a650', '9aadcedb0bb5d5b384615153a9c15a5102e64d0a')
                 post.image_url = client.upload_from_path(path,anon=True)['link']
                 post.save()
+                # save the Image
 
-                return redirect('/feed/')
+                return redirect('/feed/')   # directed to feed.html
 
         else:
             form = PostForm()
@@ -104,6 +114,7 @@ def post_view(request):
 
 
 def feed_view(request):
+    # it shows the all posts by the Users..
     user = check_validation(request)
     if user:
         posts = PostModel.objects.all().order_by('-created_on')
@@ -120,6 +131,7 @@ def feed_view(request):
 
 
 def like_view(request):
+    # it shows the like of the user....
     user = check_validation(request)
     if user and request.method == 'POST':
         form = LikeForm(request.POST)
@@ -138,6 +150,7 @@ def like_view(request):
 
 
 def comment_view(request):
+    # it can create comment on the users post..
     user = check_validation(request)
     if user and request.method == 'POST':
         form = CommentForm(request.POST)
@@ -169,5 +182,6 @@ def check_validation(request):
 
 
 def logout_view(request):
+    # For logout the current User..
     logout(request)
     return redirect('/login/')
