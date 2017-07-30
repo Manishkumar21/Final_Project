@@ -30,11 +30,9 @@ def signup_view(request):
             message = "Welcome!! To Creating Your Account At p2p marketplace Managed by vishav gupta.You Have " \
                       "Successfully Registered.It is correct place for marketing Your product.We Are Happy To Get You" \
                       "as one of our member "
-
             yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
             yag.send(to=email, subject='p2p Marketplace', contents=message)
             #   WOW!!!SUCCESSFULLY SEND EMAIL TO THE USER WHO HAS SIGNUP.
-
 
             return render(request, 'login.html')
             #return redirect('login/')
@@ -42,6 +40,7 @@ def signup_view(request):
         form = SignUpForm()
 
     return render(request, 'signup.html', {'form' : form})
+
 
 
 def login_view(request):
@@ -71,20 +70,16 @@ def login_view(request):
                     #Failed
                     response_data['message'] = 'Incorrect Password! Please try again!'
                    # template_name = 'login_fail.html'
-
     elif request.method == 'GET':
         # Display Login Page
         form = LoginForm()
-        #template_name = 'login.html'
 
-    #response_data['form'] = form
     return render(request, 'login.html', {'form' : form})
 
 
 
 def post_view(request):
     user = check_validation(request)
-
     if user:
         if request.method == 'POST':
             form = PostForm(request.POST, request.FILES)
@@ -93,9 +88,7 @@ def post_view(request):
                 caption = form.cleaned_data.get('caption')
                 post = PostModel(user=user, image=image, caption=caption)
                 post.save()
-
                 path = str(BASE_DIR+"//"+post.image.url)
-
                 client = ImgurClient('4eb011a7402a650', '9aadcedb0bb5d5b384615153a9c15a5102e64d0a')
                 post.image_url = client.upload_from_path(path,anon=True)['link']
                 post.save()
@@ -109,14 +102,12 @@ def post_view(request):
         return redirect('/login/')
 
 
+
 def feed_view(request):
     user = check_validation(request)
     if user:
-
         posts = PostModel.objects.all().order_by('-created_on')
-
         sorted(posts, key=str)
-
         for post in posts:
             existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
             if existing_like:
@@ -163,7 +154,6 @@ def comment_view(request):
 
 
 
-
 #For validating the session
 def check_validation(request):
     if request.COOKIES.get('session_token'):
@@ -171,9 +161,11 @@ def check_validation(request):
         if session:
             time_to_live = session.created_on + timedelta(days=1)
             if time_to_live > timezone.now():
+
                 return session.user
     else:
         return None
+
 
 
 def logout_view(request):
