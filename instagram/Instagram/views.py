@@ -6,13 +6,16 @@ from datetime import timedelta
 from django.utils import timezone
 from demo_app.forms import SignUpForm,LoginForm, PostForm, LikeForm, CommentForm
 from django.contrib.auth.hashers import make_password,check_password
-from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel
+from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel,CategoryModel
 from Instagram.settings import BASE_DIR
 from imgurpython import ImgurClient
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 import yagmail
 import ctypes
+from clarifai.rest import ClarifaiApp
+from clarifai import rest
+from clarifai.rest import Image as ClImage
 import tkMessageBox
 # Create your views here.
 
@@ -40,8 +43,8 @@ def signup_view(request):
                       "It is the place Where You Can Upload the Images Of the Product For Sale."
             yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
             yag.send(to=email, subject='p2p Marketplace', contents=message)
-            return email
-            ctypes.windll.user32.MessageBoxW(0, u"You have Successfully Registered", 0)
+            ctypes.windll.user32.MessageBoxW(0, u"You are Successfully Registered.",
+                                             u"Done", 0)
             #   SUCCESSFULLY SEND EMAIL TO THE USER WHO HAS SIGNUP.
 
             return render(request, 'login.html')
@@ -73,19 +76,24 @@ def login_view(request):
                     token = SessionToken(user=user)
                     token.create_token()
                     token.save()
+                    ctypes.windll.user32.MessageBoxW(0, u"Login Successfull.",
+                                                     u"Done", 0)
                     response = redirect('feed/')
                     response.set_cookie(key='session_token', value=token.session_token)
                     return response
 
                 else:
                     #Failed
-                    ctypes.windll.user32.MessageBoxW(0, u"Wrong Username Or Password", 0)
+                    ctypes.windll.user32.MessageBoxW(0, u"Check Username Or Password.",
+                                                     u"Done", 0)
                     response_data['message'] = 'Incorrect Password! Please try again!'
+        ctypes.windll.user32.MessageBoxW(0, u"Check Username Or Password.",
+                                         u"Done", 0)
+
 
     elif request.method == 'GET':
         # Display Login Page
         form = LoginForm()
-
     return render(request, 'login.html', {'form' : form})
 
 
@@ -103,7 +111,8 @@ def post_view(request):
                 post = PostModel(user=user, image=image, caption=caption)
                 post.save()
 
-                ctypes.windll.user32.MessageBoxW(0, u"Post Is Ready", 0)
+                ctypes.windll.user32.MessageBoxW(0, u"Post is Ready.",
+                                                 u"Done", 0)
                 # it will save the image on local directory and imgur used to save on cloud...
                 path = str(BASE_DIR+"//"+post.image.url)
                 client = ImgurClient('4eb011a7402a650', '9aadcedb0bb5d5b384615153a9c15a5102e64d0a')
@@ -147,18 +156,20 @@ def like_view(request):
             post_id = form.cleaned_data.get('post').id
             existing_like = LikeModel.objects.filter(post_id=post_id, user=user).first()
             if not existing_like:
-                LikeModel.objects.create(post_id=post_id, user=user)
+                like = LikeModel.objects.create(post_id=post_id, user=user)
 
-                ctypes.windll.user32.MessageBoxW(0, u"Post Is Liked", 0)
-                posts = PostModel.objects.all().order_by('-created_on')
-                sorted(posts, key=str)
-                for post_id in posts:
-                    # sending welcome Email To User That Have Commented Successfully
-                    message = "Hii!.. Someone Liked your Post on Instaclone. Login Your accout to Check."
-                    yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
-                    yag.send(to=post_id.user.email, subject='Liked Your Post', contents=message)
+                ctypes.windll.user32.MessageBoxW(0, u"Post Has Liked Successfully.",
+                                                 u"Done", 0)
+
+                email = like.post.user.email
+                # sending welcome Email To User That Have Commented Successfully
+                message = "Hii!.. Someone Liked your Post on Instaclone. Login Your accout to Check."
+                yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
+                yag.send(to=email, subject='Liked Your Post', contents=message)
             else:
                 existing_like.delete()
+                ctypes.windll.user32.MessageBoxW(0, u"Post Has UnLiked Successfully.",
+                                                 u"Done", 0)
 
             return redirect('/feed/')
     else:
@@ -179,23 +190,45 @@ def comment_view(request):
             comment = CommentModel.objects.create(user=user, post_id=post_id, comment_text=comment_text)
             comment.save()
 
-            ctypes.windll.user32.MessageBoxW(0, u"Commented On Post", 0)
-            posts = PostModel.objects.all().order_by('-created_on')
-            sorted(posts, key=str)
-            for post_id in posts:
+            ctypes.windll.user32.MessageBoxW(0, u"Successfully Commented On Post.",
+                                             u"Done", 0)
 
             # sending welcome Email To User That Have Commented Successfully
-                message = "Hii!.. Someone Commented On your Post on Instaclone. Login Your accout to Check."
-                yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
-                yag.send(to=post_id.user.email, subject='Commented On Post', contents=message)
+            email = comment.post.user.email
+            message = "Hii!.. Someone Commented On your Post on Instaclone. Login Your accout to Check."
+            yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
+            yag.send(to=email, subject='Commented On Post', contents=message)
             return redirect('/feed/')
         else:
             return redirect('/feed/')
     else:
         return redirect('/login')
 
+def add_category(post):
+    app = ClarifaiApp(api_key='{ab1b812d1beb46ff8872acea4f341b4c}')
 
+    # Logo model
 
+    model = app.models.get('general-v1.3')
+    response = model.predict_by_url(url=post.image_url)
+
+    if response["status"]["code"] == 10000:
+        if response["outputs"]:
+            if response["outputs"][0]["data"]:
+                if response["outputs"][0]["data"]["concepts"]:
+                    for index in range(0, len(response["outputs"][0]["data"]["concepts"])):
+                        category = CategoryModel(post=post,
+                                                 category_text=response["outputs"][0]["data"]["concepts"][index][
+                                                     "name"])
+                        category.save()
+                else:
+                    print "No concepts list error."
+            else:
+                print "No data list error."
+        else:
+            print "No output lists error."
+    else:
+        print "Response code error."
 
 
 
@@ -212,9 +245,12 @@ def check_validation(request):
         return None
 
 
-
 def logout_view(request):
-    # For logout the current User..
-    logout(request)
-    ctypes.windll.user32.MessageBoxW(0, u"Logout Successfully...", 0)
-    return redirect('/login/')
+    request.session.modified = True
+    response = redirect("/login/")
+
+    ctypes.windll.user32.MessageBoxW(0, u"You've been logged out successfully!",
+                                     u"Thank you!", 0)
+
+    response.delete_cookie(key="session_token")
+    return response
