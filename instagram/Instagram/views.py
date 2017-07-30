@@ -12,6 +12,8 @@ from imgurpython import ImgurClient
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 import yagmail
+import ctypes
+import tkMessageBox
 # Create your views here.
 
 
@@ -39,6 +41,7 @@ def signup_view(request):
             yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
             yag.send(to=email, subject='p2p Marketplace', contents=message)
             return email
+            ctypes.windll.user32.MessageBoxW(0, u"You have Successfully Registered", 0)
             #   SUCCESSFULLY SEND EMAIL TO THE USER WHO HAS SIGNUP.
 
             return render(request, 'login.html')
@@ -76,6 +79,7 @@ def login_view(request):
 
                 else:
                     #Failed
+                    ctypes.windll.user32.MessageBoxW(0, u"Wrong Username Or Password", 0)
                     response_data['message'] = 'Incorrect Password! Please try again!'
 
     elif request.method == 'GET':
@@ -98,6 +102,8 @@ def post_view(request):
                 caption = form.cleaned_data.get('caption')
                 post = PostModel(user=user, image=image, caption=caption)
                 post.save()
+
+                ctypes.windll.user32.MessageBoxW(0, u"Post Is Ready", 0)
                 # it will save the image on local directory and imgur used to save on cloud...
                 path = str(BASE_DIR+"//"+post.image.url)
                 client = ImgurClient('4eb011a7402a650', '9aadcedb0bb5d5b384615153a9c15a5102e64d0a')
@@ -142,6 +148,8 @@ def like_view(request):
             existing_like = LikeModel.objects.filter(post_id=post_id, user=user).first()
             if not existing_like:
                 LikeModel.objects.create(post_id=post_id, user=user)
+
+                ctypes.windll.user32.MessageBoxW(0, u"Post Is Liked", 0)
                 posts = PostModel.objects.all().order_by('-created_on')
                 sorted(posts, key=str)
                 for post_id in posts:
@@ -170,6 +178,8 @@ def comment_view(request):
             comment_text = form.cleaned_data.get('comment_text')
             comment = CommentModel.objects.create(user=user, post_id=post_id, comment_text=comment_text)
             comment.save()
+
+            ctypes.windll.user32.MessageBoxW(0, u"Commented On Post", 0)
             posts = PostModel.objects.all().order_by('-created_on')
             sorted(posts, key=str)
             for post_id in posts:
@@ -183,6 +193,9 @@ def comment_view(request):
             return redirect('/feed/')
     else:
         return redirect('/login')
+
+
+
 
 
 
@@ -203,4 +216,5 @@ def check_validation(request):
 def logout_view(request):
     # For logout the current User..
     logout(request)
+    ctypes.windll.user32.MessageBoxW(0, u"Logout Successfully...", 0)
     return redirect('/login/')
