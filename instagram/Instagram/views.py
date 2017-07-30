@@ -10,6 +10,7 @@ from Instagram.settings import BASE_DIR
 from imgurpython import ImgurClient
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
+import yagmail
 # Create your views here.
 
 
@@ -24,6 +25,17 @@ def signup_view(request):
             #saving data to DB
             user = UserModel(name=name, password=make_password(password), email=email, username=username)
             user.save()
+
+            # sending welcome Email To User That Have Signup Successfully
+            message = "Welcome!! To Creating Your Account At p2p marketplace Managed by vishav gupta.You Have " \
+                      "Successfully Registered.It is correct place for marketing Your product.We Are Happy To Get You" \
+                      "as one of our member "
+
+            yag = yagmail.SMTP('khiladimanu1@gmail.com', 'pallllavi@@')
+            yag.send(to=email, subject='p2p Marketplace', contents=message)
+            #   WOW!!!SUCCESSFULLY SEND EMAIL TO THE USER WHO HAS SIGNUP.
+
+
             return render(request, 'login.html')
             #return redirect('login/')
     else:
