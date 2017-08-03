@@ -55,3 +55,13 @@ class CommentModel(models.Model):
 	comment_text = models.CharField(max_length=555)
 	created_on = models.DateTimeField(default=datetime.datetime.now)
 	updated_on = models.DateTimeField(default=datetime.datetime.now)
+	upvoted = False
+
+	@property
+	def upvote(self):
+		return len(LikeComm.objects.filter(comment=self))
+
+
+class LikeComm(models.Model):
+	user = models.ForeignKey(UserModel)
+	comment = models.ForeignKey(CommentModel)

@@ -4,9 +4,9 @@ import os
 from django.shortcuts import render, redirect
 from datetime import timedelta
 from django.utils import timezone
-from demo_app.forms import SignUpForm,LoginForm, PostForm, LikeForm, CommentForm
+from demo_app.forms import SignUpForm,LoginForm, PostForm, LikeForm, CommentForm, LikeCommForm
 from django.contrib.auth.hashers import make_password,check_password
-from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel
+from demo_app.models import UserModel,SessionToken, PostModel, LikeModel, CommentModel, LikeComm
 from Instagram.settings import BASE_DIR
 from imgurpython import ImgurClient
 from django.contrib.auth import logout
@@ -257,8 +257,25 @@ def logout_view(request):
 
 
 def search(request):
-  	if "q" in request.GET:
-  		q = request.GET["q"]
-  		posts = PostModel.objects.filter(user__username__icontains=q)
-  		return render(request, "feeds.html", {"posts": posts, "query": q})
-  	return render(request, "feeds.html")
+    if "q" in request.GET:
+        q = request.GET["q"]
+        posts = PostModel.objects.filter(user__username__icontains=q)
+        return render(request, "feeds.html", {"posts": posts, "query": q})
+    return render(request, "feeds.html")
+
+
+
+def like_comm(request):
+    user = check_validation(request)
+    if user and request.method == 'POST':
+        form = LikeCommForm(request.POST)
+        if form.is_valid():
+            comment_id = form.cleaned_data.get('comment').id
+            existing_like = LikeComm.objects.filter(comment_id=comment_id, user=user).first()
+            if not existing_like:
+                LikeComm.objects.create(comment_id=comment_id, user=user,)
+            else:
+                existing_like.delete()
+            return redirect('/feed/')
+    else:
+        return redirect('/login/')
