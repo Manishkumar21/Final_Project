@@ -254,3 +254,11 @@ def logout_view(request):
 
     response.delete_cookie(key="session_token")
     return response
+
+
+def search(request):
+  	if "q" in request.GET:
+  		q = request.GET["q"]
+  		posts = PostModel.objects.filter(user__username__icontains=q)
+  		return render(request, "feeds.html", {"posts": posts, "query": q})
+  	return render(request, "feeds.html")
