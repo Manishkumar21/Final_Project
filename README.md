@@ -1,4 +1,7 @@
-# Final_Project
-This is the Final Project of Back End Summer Training.
+# Smart_P2P_marketplace (InstaClone)
 
-**Author : Manish Kumar**
+Application Where user can Upload Images After Creating an account. And can also View Other User's Posts.
+And can Like And Do Comments On Other User's Posts.
+It also Provides The Functionality of Showing Post By Their Usernames.
+
+**Programmer : Manish Kumar**

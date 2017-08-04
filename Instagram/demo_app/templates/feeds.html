@@ -2,56 +2,174 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form method="post" action="/post/">
-        {% csrf_token %}
-        <input type="submit" class="btn-default btn" value="Create Post">
-    </form>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			Welcome To Instagram Clone
+		</title>
+		<!--Bootstrap css-->
+			<link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+		<!--Bootstrap css ends-->
+			
+		<style>
+			body
+			{
+				background:#eae3e3;
+				background-size:100% 620px;
+				padding-top:80px;
+			}
+			.nav
+			{
+				color:black;
+				font-size: 25px;
+				background:white;
+				width:598px;
+				height:auto;
+				margin: auto;
+				border-radius: 10px;
+				opacity: .9;
+				align:center;
+			}
+			.nav>h4
+			{
+				color:blue;
+			}
+			#comment_color
+			{
+				color:blue;
+				padding-left:5px;
+			}
+			#Username_size
+			{
+				font-size:30px;
+				padding-top:5px;
+			}
+			#date
+			{
+				padding-left:20px;
+			}
+			#Username
+			{
+				color:blue;
+				text-shadow: 6px -5px 7px #000000;
+			}
+			#comment_size
+			{
+				font-size:20px;
+			}
+			#futer
+			{
+				background-color:#eae3e3;
+			}
+			#comment_text
+			{
+				border-radius: 10px;
+				height:36px;
+			}
+			img
+			{
+				box-shadow: 7px 0px 5px #ccc;
+			}
+			#time_size
+			{
+				font-size:13px;
+				opacity: .5;
+			}
+			.top
+			{
+				background-color:white;
+				border-radius: 10px;
+				padding-top:20px;
+				width:598px;
+				margin: auto;
+				border-radius: 10px;
+				opacity: .9;
+				align:center;
+			}
+			#logout
+			{
+				align:right;
+				margin-left:90px;
+			}
+			input[type="text"]
+			{
+				width: 250px;
+				height:32px;
+				font-weight: bold;
+				background-color:#eae3e3;
+				color:#0005da;
 
+			}
+		</style>
+	</head>
+	<body>
+		<div class="top">
+			<form method="post" action="/post/" align="center">
+				{% csrf_token %}
+				<a href="/post/"><input class="btn btn-primary" value="Create New Post"></a>
+				<span id="logout"><a href="{% url 'logout' %}"><input class="btn btn-info" value="Logout"></a></span><br>
 
-    {% for post in posts %}
+			</form>
+			<br>
 
+   	 		<form method="get" action="/search/" align="center">
+        		<input type="text" name="q" placeholder="Show posts by Username" >
+        		<input type="submit" value="Search" class="btn btn-success">
+    		</form>
+		<hr>
+		</div>
+		
+		<div class="nav">
+			{% for post in posts %}
+			<span id="Username_size"></br><b>Posted by:</b> <span id="Username">{{ post.user.username }}</span></span> <span id="date"> <br>[{{ post.created_on }}]</span>
+			<img style="display:inline-block; width:598px; height:600px;" src="{{ post.image_url }}" /><br>
+			<span  style="display:inline-block;" id="comment_color">{{ post.caption }}</span><br/><br/>
+			
+			<div style="display:inline-block">
+				{{ post.like_count }} likes this
+			</div>
+			<div style="display:inline-block">
+				<form method="POST" action="/like/">
+					{% csrf_token %}
+					<input type="hidden" name="post" value="{{ post.id }}" />
+					{% if post.has_liked %}
+					<input type="submit" class="btn btn-success" value="Unlike">
+					{% else %}
+					<input type="submit" class="btn btn-success" value="Like">
+					{% endif %}
+				</form>
+			</div>
+			<div>
+				<br>
+				<form method="POST" action="/comment/">
+					{% csrf_token %}
+					<input type="hidden" name="post" value="{{ post.id }}" />
+					<input type="text" name="comment_text" id="comment_text" placeholder="Make a comment.." value="{{ comment_text }}">
+					{{ comment_text }}
+					<input type="submit" class="btn btn-success" value="Comment">
+				</form>
+			</div>
+			<div>
+				{% for comment in post.comments %}
+				<p><span id="comment_color"><b>{{ comment.user.username }}</span>  
+				</b>:<span id="comment_size">{{ comment.comment_text }} </span><span id="time_size">[{{ comment.created_on }}]
 
-        <h3> Posted by: {{ post.user.username }} </h3>
-        <p>[{{ post.created_on }}]</p>
-        <img style="display:inline-block; width:350px; height:300px;"
-             src="{{ post.image_url }}" /><br>
-        <span  style="display:inline-block;">{{ post.caption }}</span><br/><br/>
-        <div style="display:inline-block">
-            {{ post.like_count }} likes this
-        </div>
-        <div style="display:inline-block">
-            <form method="POST" action="/like/">
-              {% csrf_token %}
-              <input type="hidden" name="post" value="{{ post.id }}" />
-                {% if post.has_liked %}
-                <input type="submit" class="btn btn-default" value="Unlike">
-                {% else %}
-                <input type="submit" class="btn btn-default" value="Like">
-                {% endif %}
-            </form>
-        </div>
+						<b>[{{ comment.upvote }} likes this]</b></span></p>
 
-        <div>
-            <form method="POST" action="/comment/">
-                {% csrf_token %}
-                <input type="hidden" name="post" value="{{ post.id }}" />
-                <input type="text" name="comment_text" id="comment_text" placeholder="Make a comment.." value="{{ comment_text }}">
-                {{ comment_text }}
-                <input type="submit" class="btn-default btn" value="Comment">
-            </form>
-        </div>
-
-        <div>
-            {% for comment in post.comments %}
-                <p><b>{{ comment.user.username }} [{{ comment.created_on }}]:</b> {{ comment.comment_text }}</p>
-            {% endfor %}
-        </div>
-
-    {% endfor %}
-</body>
+					<div>
+						<form method="POST" action="/like_comm/">
+                        	{% csrf_token %}
+                            	<input type="hidden" name="comment" value="{{ comment.id }}" />
+                        	{% if comment.upvoted %}
+                            	<input type="submit" value="up/down Vote" class="btn btn-success" >
+                        	{% else %}
+                            	<input type="submit" value="up/down Vote" class="btn btn-success">
+                        	{% endif %}
+                    	</form><hr>
+					</div>
+				{% endfor %}<p id="futer"><br><br></p>
+			</div>
+			{% endfor %}
+		</div>
+	</body>
 </html>
